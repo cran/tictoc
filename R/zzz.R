@@ -23,9 +23,9 @@
 
 .onLoad <- function(libname, pkgname)
 {
-   assign(".ticmsg", Stack(), envir=baseenv())
-   assign(".tictoc", Stack(), envir=baseenv())
-   assign(".ticlog", List() , envir=baseenv())
+   assign(".ticmsg", Stack(), envir=asNamespace("tictoc"))
+   assign(".tictoc", Stack(), envir=asNamespace("tictoc"))
+   assign(".ticlog", List() , envir=asNamespace("tictoc"))
 }
 
 #-------------------------------------------------------------------------------

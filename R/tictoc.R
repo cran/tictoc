@@ -174,8 +174,8 @@
 #' @rdname tic
 tic <- function(msg = NULL, quiet = TRUE, func.tic = NULL, ...)
 { 
-   stim <- get(".tictoc", envir=baseenv())
-   smsg <- get(".ticmsg", envir=baseenv())
+   stim <- get(".tictoc", envir=asNamespace("tictoc"))
+   smsg <- get(".ticmsg", envir=asNamespace("tictoc"))
    tic <- proc.time()["elapsed"]
    if (!is.null(func.tic))
    {
@@ -206,8 +206,8 @@ tic <- function(msg = NULL, quiet = TRUE, func.tic = NULL, ...)
 toc <- function(log = FALSE, quiet = FALSE, func.toc = toc.outmsg, ...)
 {
    toc <- proc.time()["elapsed"]
-   stim <- get(".tictoc", envir=baseenv())
-   smsg <- get(".ticmsg", envir=baseenv())
+   stim <- get(".tictoc", envir=asNamespace("tictoc"))
+   smsg <- get(".ticmsg", envir=asNamespace("tictoc"))
    if (size(.tictoc) == 0) return(invisible(NULL))
    tic <- pop(stim)
    msg <- pop(smsg)
@@ -219,7 +219,7 @@ toc <- function(log = FALSE, quiet = FALSE, func.toc = toc.outmsg, ...)
    res <- list(tic=tic, toc=toc, msg=msg)
    if (log) 
    {
-      ticlog <- get(".ticlog", envir=baseenv())
+      ticlog <- get(".ticlog", envir=asNamespace("tictoc"))
       push(ticlog, res)
    }
    invisible(res)
@@ -246,7 +246,7 @@ toc.outmsg <- function(tic, toc, msg)
 #' @rdname tic
 tic.clearlog <- function() 
 {
-   ticlog <- get(".ticlog", envir=baseenv())
+   ticlog <- get(".ticlog", envir=asNamespace("tictoc"))
    clear(ticlog)
 }
 
@@ -258,8 +258,8 @@ tic.clearlog <- function()
 #' @rdname tic
 tic.clear <- function() 
 {
-   stim <- get(".tictoc", envir=baseenv())
-   smsg <- get(".ticmsg", envir=baseenv())
+   stim <- get(".tictoc", envir=asNamespace("tictoc"))
+   smsg <- get(".ticmsg", envir=asNamespace("tictoc"))
    clear(stim)
    clear(smsg)
 }
@@ -274,7 +274,7 @@ tic.clear <- function()
 #' @rdname tic
 tic.log <- function(format = TRUE)
 {
-   lst <- get(".ticlog", envir=baseenv())$.Data
+   lst <- get(".ticlog", envir=asNamespace("tictoc"))$.Data
    if (format) return(lapply(lst, function(x) toc.outmsg(x$tic, x$toc, x$msg)))
    else return(lst)
 }
