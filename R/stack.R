@@ -4,16 +4,17 @@
 #
 # Stack and List
 #
-# Sergei Izrailev, 2011, 2014
+# Sergei Izrailev, 2011, 2014, 2022
 #-------------------------------------------------------------------------------
 # Copyright 2011-2014 Collective, Inc.
-# 
+# Portions are Copyright (C) 2017-2022 Jabiru Ventures LLC
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,128 +23,214 @@
 #-------------------------------------------------------------------------------
 
 # to satisfy R CMD check -- the .Data object is actually defined in S3 class.
-.Data <- vector() 
+.Data <- vector()
 
+#-------------------------------------------------------------------------------
 # STACK
+#-------------------------------------------------------------------------------
 
+#' Stack and List classes and methods
+#'
 #' \code{push} - Append an element.
 #' @param x A Stack or List object.
 #' @param value Value to append.
 #' @param s A structure to be converted to a Stack or List.
-#' @name Stack
-#' @title Stack and List classes and methods
-#' @aliases Stack List push.default pop.default clear.default shift.default first.default last.default size.default as.Stack.default as.List.default
+#' @name Stack and List
+#' @aliases Stack List push.default pop.default clear.default shift.default first_element.default last_element.default size.default as.Stack.default as.List.default
 #' @rdname Stack
 #' @export
-#' @method push default
 push <- function(x, value) UseMethod("push")    # append an element
+
+#-------------------------------------------------------------------------------
+
+#' @description
 #' \code{pop} - Remove and return the last element.
 #' @rdname Stack
 #' @export
-#' @method pop default
 pop  <- function(x) UseMethod("pop")            # pop the last element
+
+#-------------------------------------------------------------------------------
+
+#' @description
 #' \code{clear} - Remove all elements.
 #' @rdname Stack
 #' @export
-#' @method clear default
 clear  <- function(x) UseMethod("clear")
+
+#-------------------------------------------------------------------------------
+
+#' @description
 #' \code{shift} - Remove and return the first element.
 #' @rdname Stack
 #' @export
-#' @method shift default
 shift  <- function(x) UseMethod("shift")        # pop the first element
-#' \code{first} - Return the first element.
+
+#-------------------------------------------------------------------------------
+
+#' @description
+#' \code{first_element} - Return the first element. We can't use \code{first} because
+#' it's taken by the \code{dplyr} package and is not an S3 method.
 #' @rdname Stack
 #' @export
-#' @method first default
-first  <- function(x) UseMethod("first")        # return the first element
-#' \code{last} - Return the last element.
+first_element  <- function(x) UseMethod("first_element")        # return the first element
+
+#-------------------------------------------------------------------------------
+
+#' @description
+#' \code{last_element} - Return the last element. We can't use \code{last} because
+#' it's taken by the \code{dplyr} package and is not an S3 method.
 #' @rdname Stack
 #' @export
-#' @method last default
-last  <- function(x) UseMethod("last")        # return the last element
+last_element  <- function(x) UseMethod("last_element")        # return the last element
+
+#-------------------------------------------------------------------------------
+
+#' @description
 #' \code{size} - Return the number of  elements.
 #' @rdname Stack
 #' @export
-#' @method size default
 size  <- function(x) UseMethod("size")        # return the number of elements
 
+#-------------------------------------------------------------------------------
+
+#' @description
 #' \code{as.Stack} - Creates a new Stack from (typically, vector) \code{s}.
 #' @rdname Stack
 #' @export
-#' @method as.Stack default
 as.Stack <- function(s) UseMethod("as.Stack")
-as.Stack.default <- function(s) 
+
+#' @export
+as.Stack.default <- function(s)
 {
    stack <- Stack()
    push(stack, s)
    stack
 }
 
+#' @description
 #' \code{as.List} - Creates a new List from (typically, list) \code{s}.
 #' @rdname Stack
 #' @export
-#' @method as.List default
 as.List <- function(s) UseMethod("as.List")
-as.List.default <- function(s) 
+
+#' @export
+as.List.default <- function(s)
 {
    lst <- List()
    lst$.Data <- as.list(s)
    lst
 }
 
-#' @aliases push pop clear shift first last size blah
+#-------------------------------------------------------------------------------
+
+#' @aliases push pop clear shift first_element last_element size
 #' @export
 push.default  <- function(x, value) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
 pop.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
 clear.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
 shift.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
-first.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
-last.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
+first_element.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
+last_element.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
+
+#' @export
 size.default  <- function(x) stop(gettextf("Unknown class for '%s'.", deparse(substitute(x))))
 
+#' @export
 push.Stack <- function(x, value) x$push(value)
+
+#' @export
 pop.Stack  <- function(x) x$pop()
+
+#' @export
 clear.Stack  <- function(x) x$clear()
+
+#' @export
 shift.Stack  <- function(x) x$shift()
-first.Stack  <- function(x) x$first()
-last.Stack  <- function(x) x$last()
+
+#' @export
+first_element.Stack  <- function(x) x$first()
+
+#' @export
+last_element.Stack  <- function(x) x$last()
+
+#' @export
 size.Stack  <- function(x) x$size()
 
+#' @export
 as.vector.Stack <- function(x, mode = "any") as.vector(x$.Data)
-print.Stack <- function(x) print(x$.Data)
 
-as.list.List <- function(x) as.list(x$.Data)
-print.List <- function(x) print(x$.Data)
+#' @export
+print.Stack <- function(x, ...) print(x$.Data)
 
-#' \code{Stack()} - Creates and keeps a stack of items of the same type, implemented as an R vector. 
+#' @export
+as.list.List <- function(x, ...) as.list(x$.Data)
+
+#' @export
+print.List <- function(x, ...) print(x$.Data)
+
+#-------------------------------------------------------------------------------
+
+#' @description
+#' \code{Stack()} - Creates and keeps a stack of items of the same type, implemented as an R vector.
 #' The type is determined by the first \code{push} operation.
 #' @rdname Stack
-Stack <- function() 
-{ 
+#' @export
+Stack <- function()
+{
    stack <- new.env()
+
    stack$.Data <- vector()
-   stack$push <- function(x) 
+
+   stack$push <- function(x)
    {
       if (is.list(x)) stop("Can't push a list on a stack")
-      .Data <<- c(.Data,x)   
+      .Data <<- c(.Data, x)
    }
-   stack$pop  <- function() 
+
+   stack$pop  <- function()
    {
       tmp <- .Data[length(.Data)]
       .Data <<- .Data[-length(.Data)]
       return(tmp)
    }
+
    stack$clear <- function() .Data <<- vector()
-   stack$shift  <- function() 
+
+   stack$shift  <- function()
    {
       tmp <- .Data[1]
       .Data <<- .Data[-1]
       return(tmp)
    }
-   stack$first <- function() .Data[1]
-   stack$last <- function() .Data[length(.Data)]
+
+   stack$first <- function()
+   {
+      if (length(.Data) == 0) {
+         return(NA)
+      }
+      .Data[1]
+   }
+
+   stack$last <- function()
+   {
+      if (length(.Data) == 0) {
+         return(NA)
+      }
+      .Data[length(.Data)]
+   }
+
    stack$size <- function() length(.Data)
+
    environment(stack$push) <- as.environment(stack)
    environment(stack$pop) <- as.environment(stack)
    environment(stack$clear) <- as.environment(stack)
@@ -151,49 +238,86 @@ Stack <- function()
    environment(stack$first) <- as.environment(stack)
    environment(stack$last) <- as.environment(stack)
    environment(stack$size) <- as.environment(stack)
+
    class(stack) <- "Stack"
    stack
 }
 
 #------------------------------------------------------------------------------
-# LIST - keeps a list of items with append and clear operations
 
+# LIST - keeps a list of items with append and clear operations
+#' @export
 push.List <- function(x, value, ...) x$push(value)
+
+#' @export
 pop.List  <- function(x) x$pop()
+
+#' @export
 clear.List  <- function(x) x$clear()
+
+#' @export
 shift.List  <- function(x) x$shift()
-first.List  <- function(x) x$first()
-last.List  <- function(x) x$last()
+
+#' @export
+first_element.List  <- function(x) x$first()
+
+#' @export
+last_element.List  <- function(x) x$last()
+
+#' @export
 size.List  <- function(x) x$size()
 
-#' \code{List()} - Creates and keeps a list of items, implemented as an R list. 
+#' @description
+#' \code{List()} - Creates and keeps a list of items of the same type, implemented as an R list.
 #' The type is determined by the first \code{push} operation.
 #' @rdname Stack
-List <- function() 
-{ 
+#' @export
+List <- function()
+{
    lst <- new.env()
+
    lst$.Data <- list()
-   lst$push <- function(x) 
+
+   lst$push <- function(x)
    {
       .Data <<- c(.Data, 1)
       .Data[[length(.Data)]] <<- x
    }
-   lst$pop  <- function() 
+
+   lst$pop  <- function()
    {
       tmp <- .Data[[length(.Data)]]
       .Data <<- .Data[-length(.Data)]
       return(tmp)
    }
+
    lst$clear <- function() .Data <<- list()
-   lst$shift  <- function() 
+
+   lst$shift  <- function()
    {
       tmp <- .Data[[1]]
       .Data <<- .Data[-1]
       return(tmp)
    }
-   lst$first <- function() .Data[[1]]
-   lst$last <- function() .Data[[length(.Data)]]
+
+   lst$first <- function()
+   {
+      if (length(.Data) == 0) {
+         return(NA)
+      }
+      .Data[[1]]
+   }
+
+   lst$last <- function()
+   {
+      if (length(.Data) == 0) {
+         return(NA)
+      }
+      .Data[[length(.Data)]]
+   }
+
    lst$size <- function() length(.Data)
+
    environment(lst$push) <- as.environment(lst)
    environment(lst$pop) <- as.environment(lst)
    environment(lst$clear) <- as.environment(lst)
@@ -201,9 +325,9 @@ List <- function()
    environment(lst$first) <- as.environment(lst)
    environment(lst$last) <- as.environment(lst)
    environment(lst$size) <- as.environment(lst)
+
    class(lst) <- "List"
    lst
 }
-
 
 #------------------------------------------------------------------------------
