@@ -1,7 +1,7 @@
-d3257da395abfe844020898228deda88 *DESCRIPTION
+c89b04ca06ec3e3159bf8638fe82f376 *DESCRIPTION
 6c4db32a2fa8717faffa1d4f10136f47 *LICENSE
 b1efbe22b5ce556bec425e230396490b *NAMESPACE
-74aee4a082495481a840975a2acd1804 *NEWS
+efd5e5c74abb8069f7e2a420037a8ca0 *NEWS
 f6b8212fb01c877014477776463b2b1e *R/stack.R
 ef5640154a0e847673847afafc1c5650 *R/tictoc-package.R
 ae91e85e4d465be20bef90239f0a445c *R/tictoc.R
@@ -14,10 +14,11 @@ cd0caeb9e3775affa6d054f71f294131 *inst/RELEASE.md
 ed90e93bdfc422ac77497a4b7685ed56 *inst/tictoc_1.0.1.pdf
 8d67b94f70e45d06324a979331f1acc8 *inst/tictoc_1.0.pdf
 8465f9f4d1e4f9f8a9a30e708def7a59 *inst/tictoc_1.1.pdf
+398677278d2acaddf3f753ee00fcb056 *inst/tictoc_1.2.1.pdf
 32a27318d3312ad6f1215e8260ecc3fa *inst/tictoc_1.2.pdf
 b016e161406a0fcb5d9fb2e36fcfc6e7 *man/Stack.Rd
 76053e71a2891facdcb778da2f46193f *man/tic.Rd
 5c184f3de39b22b442332465069b1224 *man/tictoc.Rd
 3adc25947abc46232e1c1d6ddd33c64b *tests/testthat.R
 961aa3d0b9b39e652a15afdec9a4552a *tests/testthat/test-stack.R
-37d1811724ee202a634e0e4db5cd0d09 *tests/testthat/test-tictoc.R
+ad66fd0abfd2d643916dff4f5a1cac24 *tests/testthat/test-tictoc.R
